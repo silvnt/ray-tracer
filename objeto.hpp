@@ -1,42 +1,50 @@
 #ifndef _OBJETO_HPP_
 #define _OBJETO_HPP_
 
-#include <armadillo>
+#include "alumiador.hpp"
 #include <math.h>
-
-using namespace arma;
 
 class Objeto{
 public:
 	virtual double tVal(vec) = 0;
 	virtual vec getNormal(vec, double) = 0;
-	virtual uvec getColor() = 0;
+	virtual uvec getDifuseColor() = 0;
+	virtual uvec getSpecColor() = 0;
+	virtual double getShineness() = 0;
 };
 
 class Esfera : public Objeto{
 public:
-	Esfera(vec, double, uvec={0,0,0});
+	Esfera(vec, double, uvec={255,255,255}, uvec={255,255,255}, double = 1.1);
 	double tVal(vec);
 	vec getNormal(vec, double);
-	uvec getColor();
+	uvec getDifuseColor();
+	uvec getSpecColor();
+	double getShineness();
 private:
 	vec centro;
 	double raio;
 	uvec cor;
+	uvec specCor;
+	double shineness;
 };
 
 class Triangulo : public Objeto{
 public:
-	Triangulo(vec, vec, vec, uvec={0,0,0});
+	Triangulo(vec, vec, vec, uvec={255,255,255}, uvec={255,255,255}, double = 1.1);
 	double tVal(vec);
 	vec getNormal(vec, double);
-	uvec getColor();
+	uvec getDifuseColor();
+	uvec getSpecColor();
+	double getShineness();
 private:
 	double getBeta(vec);
 	double getGama(vec);
 	double getA(vec);
 	vec a, b, c;
 	uvec cor;
+	uvec specCor;
+	double shineness;
 };
 
 #endif

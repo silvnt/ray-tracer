@@ -24,7 +24,7 @@ vec Imagem::pixToProj(vec pixel){
 	return K*pixel;
 }
 
-void Imagem::renderizar(vector<Objeto*> *objetos){
+void Imagem::renderizar(vector<Objeto*> *objetos, vector<Alumiador*> *luminares){
 	FILE *img = fopen("imagem.ppm", "w");
 	fprintf(img, "P3\n%d %d\n%d\n", largura, altura, 255);
 	
@@ -47,11 +47,40 @@ void Imagem::renderizar(vector<Objeto*> *objetos){
 			}
 				
 			if(tAtual == -1.0){
-				fprintf(img, "%d %d %d ", 255, 255, 255);
+				fprintf(img, "%d %d %d ", 0, 0, 0);
 			}else{
-				vec normal = objetoAtual->getNormal(v, tAtual);
-				uvec cores = objetoAtual->getColor();
-				fprintf(img, "%d %d %d ", (int)cores[0], (int)cores[1], (int)cores[2]);
+				vec normal = normalise(objetoAtual->getNormal(v, tAtual));
+				uvec corDifusa = objetoAtual->getDifuseColor();
+				uvec corEspecular = objetoAtual->getSpecColor();
+				double shineness = objetoAtual->getShineness();
+				vec pontoForma = v + v*tAtual;
+				
+				int lumSize = luminares->size();
+				vec realColor = {0, 0, 0};
+				
+				for(int j = 0; j < lumSize; j++){
+					vec l = normalise((*luminares)[j]->getPosition() - pontoForma);
+					vec intesLuz = (*luminares)[j]->getIntense();
+					vec h = normalise(v + l);
+					vec difInt = { corDifusa[0]*intesLuz[0], corDifusa[1]*intesLuz[1], corDifusa[2]*intesLuz[2] };
+					vec speInt = { corEspecular[0]*intesLuz[0], corEspecular[1]*intesLuz[1], corEspecular[2]*intesLuz[2] };
+					
+					//printf("---------------------\n");
+					//pontoForma.print();
+					//normal.print();
+					//l.print();
+					//h.print();
+					
+					realColor += difInt*abs(dot(normal, l)) + speInt*pow(abs(dot(normal, h)), shineness);
+					//realColor.print();
+				}
+				
+				if(realColor[0]>255){ realColor[0] = 255; }
+				if(realColor[1]>255){ realColor[1] = 255; }
+				if(realColor[2]>255){ realColor[2] = 255; }
+				
+				
+				fprintf(img, "%d %d %d ", (int)realColor[0], (int)realColor[1], (int)realColor[2]);
 			}
 		}
 		

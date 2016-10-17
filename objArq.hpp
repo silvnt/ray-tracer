@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <fstream>
 #include "objeto.hpp"
 
 using namespace std;
 
 class ObjArq{
 public:
-	ObjArq(FILE *);
+	ObjArq(char *);
 	void inserir(vector<Objeto*> *);
 private:
 	vector<double> vertices;

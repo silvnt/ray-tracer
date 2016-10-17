@@ -1,28 +1,34 @@
 #include "objArq.hpp"
 
-ObjArq::ObjArq(FILE *arq){
+ObjArq::ObjArq(char *arqName){
+	
+	ifstream arq;
+	arq.open(arqName);
+	
 	char tipo;
 	
 	while(1){
-		fscanf(arq, "%c ", &tipo);
+		arq >> tipo;
+		
 		if(tipo != 'v'){ break; }
 		
 		double vNovo1, vNovo2, vNovo3;
 		
-		fscanf(arq, " %lf  %lf  %lf\n", &vNovo1, &vNovo2, &vNovo3);
+		arq >> vNovo1 >> vNovo2 >> vNovo3;
 		
 		vertices.push_back(vNovo1);
 		vertices.push_back(vNovo2);
 		vertices.push_back(vNovo3);
+		
 	}
 	
 	while(1){
-		fscanf(arq, "%c ", &tipo);
+		arq >> tipo;
 		if(tipo != 'f'){ break; }
 		
 		int fNovo1, fNovo2, fNovo3;
 		
-		fscanf(arq, " %d  %d  %d\n", &fNovo1, &fNovo2, &fNovo3);
+		arq >> fNovo1 >> fNovo2 >> fNovo3;
 		
 		ligacoes.push_back(fNovo1);
 		ligacoes.push_back(fNovo2);
@@ -51,9 +57,10 @@ void ObjArq::inserir(vector<Objeto*> *v){
 		posicV = (ligacoes[i]-1) * 3;
 		vec p3 = { vertices[posicV], vertices[posicV+1], vertices[posicV+2] };
 		
-		uvec color = { 126, 126, 126 };
+		uvec color = { 255, 255, 255 };
+		uvec specColor = { 255, 255, 255 };
 		
-		Objeto *novo = new Triangulo(p1, p2, p3, color);
+		Objeto *novo = new Triangulo(p1, p2, p3, color, specColor, 50);
 		
 		v->push_back(novo);
 	}

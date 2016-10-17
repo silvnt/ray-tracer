@@ -7,7 +7,7 @@
 class Imagem{
 public:
 	Imagem(int, int);
-	void renderizar(vector<Objeto*> *);
+	void renderizar(vector<Objeto*> *, vector<Alumiador*> *);
 private:
 	int altura, largura, dpi;
 	vec projToPix(vec);

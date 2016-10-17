@@ -1,13 +1,17 @@
 #include "objeto.hpp"
 
 //Esfera
-Esfera::Esfera(vec pCentro, double pRaio, uvec pCor){
+Esfera::Esfera(vec pCentro, double pRaio, uvec pCor, uvec pSpecCor, double pShineness){
 	centro = pCentro;
 	raio = pRaio;
 	cor = pCor;
+	specCor = pSpecCor;
+	shineness = pShineness;
 }
 
-uvec Esfera::getColor(){ return cor; }
+uvec Esfera::getDifuseColor(){ return cor; }
+uvec Esfera::getSpecColor(){ return specCor; }
+double Esfera::getShineness(){ return shineness; }
 
 double Esfera::tVal(vec diretor){
 	double contRaiz = (dot(diretor, diretor-centro))*(dot(diretor,
@@ -32,11 +36,13 @@ vec Esfera::getNormal(vec diretor, double t){
 
 //Triângulo
 
-Triangulo::Triangulo(vec pA, vec pB, vec pC, uvec pCor){
+Triangulo::Triangulo(vec pA, vec pB, vec pC, uvec pCor, uvec pSpecCor, double pShineness){
 	a = pA;
 	b = pB;
 	c = pC;
 	cor = pCor;
+	specCor = pSpecCor;
+	shineness = pShineness;
 }
 
 /*
@@ -122,7 +128,9 @@ vec Triangulo::getNormal(vec diretor, double t){
 	
 	vec normal = nA*alfa + nB*beta + nC*gama;
 	
-	return normalise(normal);
+	return normal;
 }
 
-uvec Triangulo::getColor(){ return cor; }
+uvec Triangulo::getDifuseColor(){ return cor; }
+uvec Triangulo::getSpecColor(){ return specCor; }
+double Triangulo::getShineness(){ return shineness; }

@@ -9,18 +9,22 @@ Imagem::Imagem(int pAltura, int pLargura){
 }
 
 vec Imagem::projToPix(vec ponto){
-	mat K = { {dpi*1.0, 0.0, largura/2.0},
-						{0.0, (-1.0)*dpi, altura/2.0},
-						{0.0, 0.0, 1.0} };
-	
+	mat K;
+
+	K << dpi*1.0 << 0.0 << largura/2.0 << endr
+		<< 0.0 << (-1.0)*dpi << altura/2.0 << endr
+		<< 0.0 << 0.0 << 1.0;
+
 	return K*ponto;
 }
 
 vec Imagem::pixToProj(vec pixel){
-	mat K = { {1.0/dpi, 0.0, largura/(-2.0*dpi)},
-						{0.0, (-1.0)/dpi, altura/(2.0*dpi)},
-						{0.0, 0.0, 1.0} };
-	
+	mat K;
+
+	K << 1.0/dpi << 0.0 << largura/(-2.0*dpi) << endr
+		<< 0.0 << (-1.0)/dpi << altura/(2.0*dpi) << endr
+		<< 0.0 << 0.0 << 1.0;
+
 	return K*pixel;
 }
 

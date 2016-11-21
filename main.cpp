@@ -1,7 +1,7 @@
 #include "imagem.hpp"
 
 int main(int argc, char **argv){
-	if(argc != 4){
+	if(argc != 5){
 		printf("Insira valores de largura e altura da imagem (pixels). Insira Arquivo .obj\n");
 		return 1;
 	}
@@ -11,7 +11,8 @@ int main(int argc, char **argv){
 	// Objetos
 	
 	ObjArq *obj = new ObjArq(argv[3]);
-	
+	ObjArq *obj2 = new ObjArq(argv[4]);
+
 	/*vec centroEsfera = {0.0, 0.0, 5.0};
 	uvec corEsfera = {255,255,255};
 	uvec corSpecEsfera = {255,255,255};
@@ -24,13 +25,14 @@ int main(int argc, char **argv){
 	
 	vector<Objeto*> formas;
 	obj->inserir(&formas);
-	
+	obj2->inserir(&formas);
+
 	//formas.push_back(esfera);
 	//formas.push_back(triangulo3);
 	
 	// Luminares
 	
-	vec positLuz= {0.0, 0.0, 0.0};
+	vec positLuz= {1.0, 1.0, 2.0};
 	vec iLuz = {0, 0, 1};
 	Alumiador *luz1 = new Alumiador(positLuz, iLuz);
 	

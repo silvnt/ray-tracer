@@ -50,18 +50,18 @@ void Imagem::renderizar(vector<Objeto*> *objetos, vector<Alumiador*> *luminares)
 				}
 			}
 				
-			if(tAtual == -1.0){
+			if(tAtual == -1.0){ 
 				fprintf(img, "%d %d %d ", 0, 0, 0);
 			}else{
 				vec normal = normalise(objetoAtual->getNormal(v, tAtual));
 				uvec corDifusa = objetoAtual->getDifuseColor();
 				uvec corEspecular = objetoAtual->getSpecColor();
 				double shineness = objetoAtual->getShineness();
-				vec pontoForma = v + v*tAtual;
+				vec pontoForma = v + v*tAtual; 
 				
 				int lumSize = luminares->size();
 				vec realColor = {0, 0, 0};
-				
+
 				for(int j = 0; j < lumSize; j++){
 					vec l = normalise((*luminares)[j]->getPosition() - pontoForma);
 					vec intesLuz = (*luminares)[j]->getIntense();
@@ -69,14 +69,22 @@ void Imagem::renderizar(vector<Objeto*> *objetos, vector<Alumiador*> *luminares)
 					vec difInt = { corDifusa[0]*intesLuz[0], corDifusa[1]*intesLuz[1], corDifusa[2]*intesLuz[2] };
 					vec speInt = { corEspecular[0]*intesLuz[0], corEspecular[1]*intesLuz[1], corEspecular[2]*intesLuz[2] };
 					
-					//printf("---------------------\n");
-					//pontoForma.print();
-					//normal.print();
-					//l.print();
-					//h.print();
+					//shadow
+					vec s = pontoForma + tAtual*l; //vector shadow (point -> luz position)
+
+					tAtual = -1.0;
+					for(int i = 0; i < size; i++){
+						double t = (*objetos)[i]->tVal(s); //intersect with shadows ray
+						
+						if(t >= 0 && ((t < tAtual) || (tAtual == -1.0))){
+							tAtual = t;
+							objetoAtual = (*objetos)[i];
+						}
+					}
 					
-					realColor += difInt*abs(dot(normal, l)) + speInt*pow(abs(dot(normal, h)), shineness);
-					//realColor.print();
+					if(tAtual == -1.0){
+						realColor += difInt*abs(dot(normal, l)) + speInt*pow(abs(dot(normal, h)), shineness);
+					}
 				}
 				
 				if(realColor[0]>255){ realColor[0] = 255; }

@@ -9,7 +9,7 @@ Imagem::Imagem(int pAltura, int pLargura, vec pCentroProj){
 	centroProj = pCentroProj;
 }
 
-//precisa atualizar funcoes projToPix e pixToProj para generalizacao
+
 vec Imagem::projToPix(vec ponto){
 	mat K;
 

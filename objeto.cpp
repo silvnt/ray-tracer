@@ -13,23 +13,23 @@ uvec Esfera::getDifuseColor(){ return cor; }
 uvec Esfera::getSpecColor(){ return specCor; }
 double Esfera::getShineness(){ return shineness; }
 
-double Esfera::tVal(vec diretor){
-	double contRaiz = (dot(diretor, diretor-centro))*(dot(diretor,
-					diretor-centro))-(dot(diretor,diretor))*(dot(diretor
-					-centro,diretor-centro)-(raio*raio));
+double Esfera::tVal(vec pontoProj, vec diretor){
+	double contRaiz = (dot(diretor, pontoProj-centro))*(dot(diretor,
+					pontoProj-centro))-(dot(diretor,diretor))*(dot(pontoProj
+					-centro,pontoProj-centro)-(raio*raio));
 					
 	if(contRaiz<0){ return -1.0; }
 	
-	double t1 = (dot((-1.0)*diretor, diretor-centro) + sqrt(contRaiz))/
+	double t1 = (dot((-1.0)*diretor, pontoProj-centro) + sqrt(contRaiz))/
 				dot(diretor,diretor);
-	double t2 = (dot((-1.0)*diretor, diretor-centro) - sqrt(contRaiz))/
+	double t2 = (dot((-1.0)*diretor, pontoProj-centro) - sqrt(contRaiz))/
 				dot(diretor,diretor);
 	
 	if(t2 < t1){ return t1; } else { return t2; }
 }
 
-vec Esfera::getNormal(vec diretor, double t){
-	vec ponto = diretor + diretor*t;
+vec Esfera::getNormal(vec pontoProj, vec diretor, double t){
+	vec ponto = pontoProj + diretor*t;
 	
 	return (ponto - centro) / raio;
 }
@@ -58,16 +58,16 @@ double Triangulo::tVal(vec diretor){
 	B.insert_cols(2, (-1.0)*diretor); double beta = det(B) / detA;
 }*/
 
-double Triangulo::tVal(vec diretor){
+double Triangulo::tVal(vec pontoProj, vec diretor){
 	vec a_b = a-b;
 	vec a_c = a-c;
-	vec a_e = a-diretor;
+	vec a_e = a-pontoProj;
 	
-	double gama = this->getGama(diretor);
+	double gama = this->getGama(pontoProj, diretor);
 	
 	if(gama < 0.0 || gama > 1.0){ return -1.0; }
 	
-	double beta = this->getBeta(diretor);
+	double beta = this->getBeta(pontoProj, diretor);
 	
 	if(beta < 0.0 || beta > 1.0 - gama){ return -1.0; }
 	
@@ -92,9 +92,9 @@ double Triangulo::getA(vec diretor){
 	return det(A);
 }
 
-double Triangulo::getGama(vec diretor){
+double Triangulo::getGama(vec pontoProj, vec diretor){
 	vec a_b = a-b;
-	vec a_e = a-diretor;
+	vec a_e = a-pontoProj;
 	
 	mat G;
 	G.insert_cols(0, a_b);
@@ -104,8 +104,8 @@ double Triangulo::getGama(vec diretor){
 	return det(G) / this->getA(diretor);
 }
 
-double Triangulo::getBeta(vec diretor){
-	vec a_e = a-diretor;
+double Triangulo::getBeta(vec pontoProj, vec diretor){
+	vec a_e = a-pontoProj;
 	vec a_c = a-c;
 	
 	mat B;
@@ -116,14 +116,14 @@ double Triangulo::getBeta(vec diretor){
 	return det(B) / this->getA(diretor);
 }
 
-vec Triangulo::getNormal(vec diretor, double t){
+vec Triangulo::getNormal(vec pontoProj, vec diretor, double t){
 	
 	vec nA = cross((b-a), (c-a));
 	vec nB = cross((a-b), (c-b));
 	vec nC = cross((a-c), (b-c));
 	
-	double beta = this->getBeta(diretor);
-	double gama = this->getGama(diretor);
+	double beta = this->getBeta(pontoProj, diretor);
+	double gama = this->getGama(pontoProj, diretor);
 	double alfa = 1.0 - (beta+gama);
 	
 	vec normal = nA*alfa + nB*beta + nC*gama;

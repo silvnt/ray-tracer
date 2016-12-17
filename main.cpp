@@ -6,7 +6,8 @@ int main(int argc, char **argv){
 		return 1;
 	}
 	
-	Imagem *img = new Imagem(atoi(argv[2]), atoi(argv[1]));
+	vec centroProj = {0.0, 0.0, 0.0};
+	Imagem *img = new Imagem(atoi(argv[2]), atoi(argv[1]), centroProj);
 	
 	// Objetos
 	
@@ -32,8 +33,8 @@ int main(int argc, char **argv){
 	
 	// Luminares
 	
-	vec positLuz= {1.0, 1.0, 2.0};
-	vec iLuz = {0, 0, 1};
+	vec positLuz= {1.0, 1.0, 0.0};
+	vec iLuz = {0.8, 0.8, 0.8};
 	Alumiador *luz1 = new Alumiador(positLuz, iLuz);
 	
 	/*vec positLuz2= {5.0, 5.0, 5.0};

@@ -6,10 +6,11 @@
 
 class Imagem{
 public:
-	Imagem(int, int);
+	Imagem(int, int, vec);
 	void renderizar(vector<Objeto*> *, vector<Alumiador*> *);
 private:
 	int altura, largura, dpi;
+	vec centroProj;
 	vec projToPix(vec);
 	vec pixToProj(vec);
 };

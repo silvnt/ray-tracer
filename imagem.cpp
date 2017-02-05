@@ -30,8 +30,8 @@ vec Imagem::pixToProj(vec pixel){
 	return (K*pixel) + centroProj;
 }
 
-void Imagem::renderizar(vector<Objeto*> *objetos, vector<Alumiador*> *luminares){
-	FILE *img = fopen("imagem.ppm", "w");
+void Imagem::renderizar(vector<Objeto*> *objetos, vector<Alumiador*> *luminares, char *nome){
+	FILE *img = fopen(nome, "w");
 	fprintf(img, "P3\n%d %d\n%d\n", largura, altura, 255);
 	
 	for(int h = 0; h < altura; h++){

@@ -36,13 +36,19 @@ vec Esfera::getNormal(vec pontoProj, vec diretor, double t){
 
 //Triângulo
 
-Triangulo::Triangulo(vec pA, vec pB, vec pC, uvec pCor, uvec pSpecCor, double pShineness){
+Triangulo::Triangulo(vec pA, vec pB, vec pC, uvec pCor, uvec pSpecCor, 
+	double pShineness, vec pNA, vec pNB, vec pNC){
+		
 	a = pA;
 	b = pB;
 	c = pC;
 	cor = pCor;
 	specCor = pSpecCor;
 	shineness = pShineness;
+	nA = pNA;
+	nB = pNB;
+	nC = pNC;
+	
 }
 
 /*
@@ -118,9 +124,11 @@ double Triangulo::getBeta(vec pontoProj, vec diretor){
 
 vec Triangulo::getNormal(vec pontoProj, vec diretor, double t){
 	
-	vec nA = cross((b-a), (c-a));
-	vec nB = cross((a-b), (c-b));
-	vec nC = cross((a-c), (b-c));
+	if(nA.is_empty() == 0){
+		nA = cross((b-a), (c-a));
+		nB = cross((a-b), (c-b));
+		nC = cross((a-c), (b-c));
+	}
 	
 	double beta = this->getBeta(pontoProj, diretor);
 	double gama = this->getGama(pontoProj, diretor);

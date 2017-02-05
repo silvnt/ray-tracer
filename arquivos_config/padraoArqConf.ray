@@ -1,0 +1,45 @@
+_CONF_RAY_
+
+_nomeImg teste.ppm
+
+_resolucao 800 600
+
+_centroProjetivo 0.0 0.0 -5.0
+
+_inserir esfera
+	.centro -2.0 2.0 -1.0
+	.raio 1.0
+	.corDifusa 132 42 63
+	.corEspecular 120 25 39
+	.shineness 90.0 
+	_
+	
+_inserir triangulo
+	.vertice1 4.0 -3.0 -2.0
+	.vertice2 -4.0 -3.0 -2.0
+	.vertice3 4.0 -2.0 4.0
+	.corDifusa 255 255 255
+	.corEspecular 255 255 255
+	.shineness 50.0
+	_
+	
+_inserir triangulo
+	.vertice1 -4.0 -3.0 -2.0
+	.vertice2 4.0 -2.0 4.0
+	.vertice3 -4.0 -2.0 4.0
+	.corDifusa 255 255 255
+	.corEspecular 255 255 255
+	.shineness 50.0
+	_
+	
+_inserir obj untitled.obj
+
+_inserir luz
+	.posicao 3.0 3.0 3.0
+	.intensidade 0.8 0.8 0.8
+	_
+
+_inserir luz
+	.posicao -3.0 3.0 -3.0
+	.intensidade 0.8 0.8 0.8
+	_

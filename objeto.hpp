@@ -31,7 +31,7 @@ private:
 
 class Triangulo : public Objeto{
 public:
-	Triangulo(vec, vec, vec, uvec={255,255,255}, uvec={255,255,255}, double = 1.0);
+	Triangulo(vec, vec, vec, uvec={200,200,200}, uvec={200,200,200}, double = 20.0, vec={0.0, 0.0, 0.0}, vec={0.0, 0.0, 0.0}, vec={0.0, 0.0, 0.0});
 	double tVal(vec, vec);
 	vec getNormal(vec, vec, double);
 	uvec getDifuseColor();
@@ -42,6 +42,7 @@ private:
 	double getGama(vec, vec);
 	double getA(vec);
 	vec a, b, c;
+	vec nA, nB, nC;
 	uvec cor;
 	uvec specCor;
 	double shineness;

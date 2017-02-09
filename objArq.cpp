@@ -1,7 +1,6 @@
 #include "objArq.hpp"
 
 ObjArq::ObjArq(char *arqName){
-	
 	FILE *arq;
 	arq = fopen(arqName,"r");
 	int res;
@@ -108,7 +107,9 @@ void ObjArq::inserir(vector<Objeto*> *v){
 	int i = -1, size = ligacoesVert.size();
 	int colorIndex = -1;
 	
-	if(mtlArqName != NULL){ readMtl(); colorIndex = 0; }
+	
+	printf("%s", mtlArqName);
+	if(mtlArqName[0] != '\0'){ printf("merda\n"); readMtl(); colorIndex = 0;}
 	
 	if(!normais.empty()){
 		while(i < size-1){
@@ -137,6 +138,7 @@ void ObjArq::inserir(vector<Objeto*> *v){
 								
 			if(colorIndex != -1){				
 				novo = new Triangulo(p1, p2, p3, difusaCores[colorIndex], especularCores[colorIndex], shinenessIntensidades[colorIndex], n1, n2, n3);
+				if(i+1 == positObjVert[colorIndex]){ colorIndex++; }
 			}else{
 				uvec color = {200, 200, 200};
 				uvec specColor = {200, 200, 200};
@@ -146,7 +148,6 @@ void ObjArq::inserir(vector<Objeto*> *v){
 					
 			v->push_back(novo);
 			
-			if(i+1 == positObjVert[colorIndex]){ colorIndex++; }
 		}
 		
 	}else{
@@ -165,7 +166,7 @@ void ObjArq::inserir(vector<Objeto*> *v){
 		
 			if(colorIndex != -1){
 				novo = new Triangulo(p1, p2, p3, difusaCores[colorIndex], especularCores[colorIndex], shinenessIntensidades[colorIndex]);
-					
+				if(i+1 == positObjVert[colorIndex]){ colorIndex++; }
 			}else{
 				uvec color = {200, 200, 200};
 				uvec specColor = {200, 200, 200};
@@ -176,7 +177,6 @@ void ObjArq::inserir(vector<Objeto*> *v){
 		
 			v->push_back(novo);
 			
-			if(i+1 == positObjVert[colorIndex]){ colorIndex++; }
 		}
 	}
 	
